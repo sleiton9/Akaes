@@ -38,6 +38,27 @@ df_cancel= df_cancel.groupby(['FECHA_CREACION'], as_index=False).count()
 #-------------------------------------------------------------------------------
 
 
+#----------------------CONTEO DE TIPO------------------------------------
+df_tipo=df[['FECHA_CREACION','TIPO','TRAKING_SHOP']]
+df_tipo=df_tipo[(df_tipo['TRAKING_SHOP']!='Cancelado')]
+df_tipo= df_tipo.groupby(['FECHA_CREACION','TIPO'], as_index=False).count()
+df_tipo=df_tipo.pivot(index='FECHA_CREACION',columns='TIPO') #easy to read, rows=index columns=columns lol
+df_tipo[('TRAKING_SHOP', 'manual')].replace(np.nan, 0, inplace=True)
+df_tipo[('TRAKING_SHOP', 'MELI')].replace(np.nan, 0, inplace=True)
+#-------------------------------------------------------------------------------
+
+#----------------------CONTEO DE ENVIO------------------------------------
+df_envio=df[['FECHA_CREACION','ENVIO','TRAKING_SHOP']]
+df_envio=df_envio[(df_envio['TRAKING_SHOP']!='Cancelado')]
+df_envio= df_envio.groupby(['FECHA_CREACION','ENVIO'], as_index=False).count()
+df_envio=df_envio.pivot(index='FECHA_CREACION',columns='ENVIO') #easy to read, rows=index columns=columns lol
+df_envio[('TRAKING_SHOP', 'custom')].replace(np.nan, 0, inplace=True)
+df_envio[('TRAKING_SHOP', 'me2')].replace(np.nan, 0, inplace=True)
+#-------------------------------------------------------------------------------
+
+
+
+
 #----------------------SUMA VALOR_USD y PRECIO(APROBADOS)---------------------------------
 df_aprov=df[['FECHA_CREACION','VALOR_USD','PRECIO','TRAKING_SHOP']]
 df_aprov=df_aprov[(df_aprov['TRAKING_SHOP']!='Cancelado')]
@@ -115,6 +136,23 @@ def data_Update(df_gp_count,df_gp_val,df_cancel):
         sheet.update_cell(fila+int(df_cancel.values[i][0])-1, columna+3, (df_cancel.values[i][1]))  
         sleep(1.2)
 
+    for i in range(0, df_envio.shape[0]):
+        sheet.update_cell(fila+int(df_envio.index[i])-1, columna+6, (df_envio.values[i][0]))  
+        sleep(1.2)
+
+    for i in range(0, df_envio.shape[0]):
+        sheet.update_cell(fila+int(df_envio.index[i])-1, columna+7, (df_envio.values[i][1]))  
+        sleep(1.2)
+
+    for i in range(0, df_tipo.shape[0]):
+        sheet.update_cell(fila+int(df_tipo.index[i])-1, columna+8, (df_tipo.values[i][0]))  
+        sleep(1.2)
+
+    for i in range(0, df_tipo.shape[0]):
+        sheet.update_cell(fila+int(df_tipo.index[i])-1, columna+9, (df_tipo.values[i][1]))  
+        sleep(1.2)
+
+
 def geodata_Update(df_gp_geo):
     sheet = worksheet.worksheet('Colombia geo')
     for i in range(0, df_gp_geo.shape[0]):
@@ -131,6 +169,6 @@ def geodata_Update(df_gp_geo):
 
 
 
-#data_Update(df_gp_count,df_gp_val,df_cancel)
-geodata_Update(df_gp_geo)
+data_Update(df_gp_count,df_gp_val,df_cancel)
+#geodata_Update(df_gp_geo)
 
