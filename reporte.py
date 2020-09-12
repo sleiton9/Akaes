@@ -9,15 +9,15 @@ from os import listdir
 ruta = '.'  
 nombre_hoja='data'
 archivos = listdir(ruta)
-fecha='2020-06-01'
-mes='Junio'
+fecha='2020-08-01'
+mes='Agosto'
 columna=3
-fila=2
+fila=63
 fila_geo=2
 columna_geo=1
 
 for i in archivos:  
-    eval1 = i.find('reporte_helios-junio')
+    eval1 = i.find('reporte_helios-agosto')
     if(eval1 >= 0 ):
         archivo=i
 
@@ -131,6 +131,6 @@ def geodata_Update(df_gp_geo):
 
 
 
-#data_Update(df_gp_count,df_gp_val,df_cancel)
-geodata_Update(df_gp_geo)
+data_Update(df_gp_count,df_gp_val,df_cancel)
+#geodata_Update(df_gp_geo)
 
