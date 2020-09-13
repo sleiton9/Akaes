@@ -9,19 +9,16 @@ from os import listdir
 ruta = '.'  
 nombre_hoja='data'
 archivos = listdir(ruta)
-fecha='2020-08-01'
-mes='Agosto'
+fecha='2020-06-01'
+mes='Junio'
 columna=3
-fila=63
+fila=32
 fila_geo=2
 columna_geo=1
 
-for i in archivos:  
-    eval1 = i.find('reporte_helios-agosto')
-    if(eval1 >= 0 ):
-        archivo=i
 
-df = pd.read_excel(archivo, nombre_hoja)
+
+df = pd.read_excel('reporte_helios-junio.xlsx', nombre_hoja)
 
 df=df[['FECHA_CREACION','TRAKING_SHOP','VALOR_USD','PRECIO','TIPO','ENVIO','PROVINCIA']]
 df= df[(df['FECHA_CREACION']>=fecha)]
